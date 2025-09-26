@@ -29,6 +29,7 @@ extern u8 sub_0801B3A4(u16);
 extern void sub_080274AC(s32, u16);
 extern u16 sub_08002FD4(u16, s32);
 extern s32 sub_08002474(s32, s32, s32);
+extern void sub_080272F4(u16, u16, u16);
 extern s32 sub_08022354(s32);
 extern s32 sub_08039B24(s32);
 extern u16 sub_080031E0();
@@ -4638,7 +4639,18 @@ extern "C" s32 cmd_play_fade(s32* sp) {
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_71.inc", void cmd_71());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_72.inc", void cmd_72());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_73.inc", void cmd_73());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_set_palettes.inc", void cmd_set_palettes());
+
+extern "C" s32 cmd_set_palettes(s32* sp) {
+
+    u16 unk_a = scriptstack_peek(sp, 2);
+    u16 unk_b = scriptstack_peek(sp, 1);
+    u16 unk_c = scriptstack_peek(sp, 0);
+    u16 unk_d = unk_a == 0 ? 0xA : 0xB;
+    
+    sub_080272F4(unk_d, unk_b, unk_c);
+    return 0;
+}
+
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_75.inc", void cmd_75());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_76.inc", void cmd_76());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_stop_shake.inc", void cmd_stop_shake());
