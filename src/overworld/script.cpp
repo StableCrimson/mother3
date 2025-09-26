@@ -4604,7 +4604,24 @@ extern "C" s32 cmd_set_fade(s32* sp) {
     return 0;
 }
 
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_fade_in.inc", void cmd_fade_in());
+extern "C" s32 cmd_fade_in(s32* sp) {
+    if (gGame._595b[0] != 1) {
+        sub_08001B18(&gGame._9488, &gUnknown_03005314, 0x400);
+        u8 lastGameMode = gGame.mode;
+        gSomeBlend.bldcnt = 0;
+        gSomeBlend.bldalpha = 0;
+        gSomeBlend.bldy = 0;
+        gSomeBlend.bldcnt = gGame._679c;
+        gSomeBlend.bldalpha = gGame._679e;
+        gSomeBlend.bldy = gGame._67a0;
+        gGame.mode = MODE_FADE_IN;
+        gGame._5960 = scriptstack_peek(sp, 0);
+        sub_08013D38();
+        gGame.mode = lastGameMode;
+    }
+    return 0;
+}
+
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_play_fade.inc", void cmd_play_fade());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_71.inc", void cmd_71());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_72.inc", void cmd_72());
