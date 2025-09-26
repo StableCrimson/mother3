@@ -27,6 +27,9 @@ extern u16 sub_08003D48(u16);
 extern u8 sub_0801B3A4(u16);
 extern void sub_080274AC(s32, u16);
 extern u16 sub_08002FD4(u16, s32);
+extern s32 sub_08002474(s32, s32, s32);
+extern s32 sub_08022354(s32);
+extern s32 sub_08039B24(s32);
 extern u16 sub_080031E0();
 extern void DoReset();
 
@@ -4632,7 +4635,7 @@ extern "C" ASM_FUNC("asm/non_matching/script/cmd_CE.inc", void cmd_CE());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_CF.inc", void cmd_CF());
 
 extern "C" s32 cmd_D1(s32* sp) {
-    sub_080274AC(0xA, (u16) scriptstack_peek(sp, 0));
+    sub_080274AC(0xA, (u16)scriptstack_peek(sp, 0));
     return 0;
 }
 
@@ -4697,7 +4700,6 @@ extern "C" s32 cmd_DB(s32* sp) {
     return 0;
 }
 
-
 extern "C" s32 cmd_DC(s32* sp) {
     s16 unk = scriptstack_peek(sp, 0);
     if (unk == -1) {
@@ -4745,7 +4747,6 @@ extern "C" s32 cmd_8F() {
 }
 
 extern "C" s32 cmd_90(s32* sp) {
-    
     s32 unk = scriptstack_peek(sp, 0);
 
     if (unk == 0) {
@@ -4753,7 +4754,7 @@ extern "C" s32 cmd_90(s32* sp) {
     } else {
         gEncounter._4 = 1;
     }
-    
+
     return 0;
 }
 
@@ -4769,10 +4770,10 @@ extern "C" s32 cmd_set_gameover() {
 
 extern "C" s32 cmd_93(s32* sp) {
     Object* obj = get_obj(scriptstack_peek(sp, 0));
-    
-    if (obj)         
+
+    if (obj)
         sub_08026610(obj->character);
-    
+
     return 0;
 }
 
@@ -4803,7 +4804,27 @@ extern "C" s32 cmd_open_naming(s32* sp) {
     return 1;
 }
 
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_cmp_input_name.inc", void cmd_cmp_input_name());
+extern "C" s32 cmd_cmp_input_name(s32* sp) {
+    u16 unk = scriptstack_peek(sp, 0);
+
+    if (unk == 0) {
+        if ((sub_08002474(sub_08022354(3), sub_08039B24(0x28), 9) << 0x10) != 0) {
+            scriptstack_push(0);
+        } else {
+            scriptstack_push(1);
+        }
+    } else if (unk != 2) {
+        scriptstack_push(0);
+    } else {
+        if ((sub_08002474(sub_08022354(4), sub_08039B24(0x29), 9) << 0x10) == 0) {
+            scriptstack_push(1);
+        } else {
+            scriptstack_push(0);
+        }
+    }
+    return 0;
+}
+
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_open_itemguy.inc", void cmd_open_itemguy());
 
 extern "C" s32 cmd_open_bank() {
