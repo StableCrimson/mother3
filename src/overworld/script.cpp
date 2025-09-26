@@ -21,6 +21,7 @@ extern void sub_080052E4(s32);
 extern void sub_0803C4DC(s32);
 extern void sub_080038A4(s32);
 extern void sub_08026610(u8);
+extern void sub_08013EB8();
 extern void sub_08003BF8(u16);
 extern s16 sub_08003D14(u16);
 extern u16 sub_08003D48(u16);
@@ -4622,7 +4623,18 @@ extern "C" s32 cmd_fade_in(s32* sp) {
     return 0;
 }
 
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_play_fade.inc", void cmd_play_fade());
+extern "C" s32 cmd_play_fade(s32* sp) {
+    if (gGame._595b[1] != 1) {
+        sub_08001B18((u32*)&gUnknown_03005314, (u16*)&gGame._9488, 0x400);
+        u8 lastGameMode = gGame.mode;
+        gGame.mode = MODE_LOAD_ROOM;
+        gGame._5960 = scriptstack_peek(sp, 0);
+        sub_08013EB8();
+        gGame.mode = lastGameMode;
+    }
+    return 0;
+}
+
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_71.inc", void cmd_71());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_72.inc", void cmd_72());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_73.inc", void cmd_73());
