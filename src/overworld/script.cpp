@@ -4642,16 +4642,22 @@ extern "C" ASM_FUNC("asm/non_matching/script/cmd_73.inc", void cmd_73());
 
 extern "C" s32 cmd_set_palettes(s32* sp) {
 
-    u16 unk_a = scriptstack_peek(sp, 2);
-    u16 unk_b = scriptstack_peek(sp, 1);
-    u16 unk_c = scriptstack_peek(sp, 0);
-    u16 unk_d = unk_a == 0 ? 0xA : 0xB;
+    u16 unkA = scriptstack_peek(sp, 2);
+    u16 unkB = scriptstack_peek(sp, 1);
+    u16 unkC = scriptstack_peek(sp, 0);
+    u16 unkD = unkA == 0 ? 0xA : 0xB;
     
-    sub_080272F4(unk_d, unk_b, unk_c);
+    sub_080272F4(unkD, unkB, unkC);
     return 0;
 }
 
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_75.inc", void cmd_75());
+extern "C" s32 cmd_75(s32* sp) {
+    gGame._83a8 = scriptstack_peek(sp, 2);
+    gGame._83aa = scriptstack_peek(sp, 1);
+    gGame._83ac = scriptstack_peek(sp, 0);
+    return 0;
+}
+
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_76.inc", void cmd_76());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_stop_shake.inc", void cmd_stop_shake());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_play_anim_above.inc", void cmd_play_anim_above());
@@ -4676,7 +4682,7 @@ extern "C" ASM_FUNC("asm/non_matching/script/cmd_CE.inc", void cmd_CE());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_CF.inc", void cmd_CF());
 
 extern "C" s32 cmd_D1(s32* sp) {
-    sub_080274AC(0xA, (u16)scriptstack_peek(sp, 0));
+    sub_080274AC(0xA, (u16) scriptstack_peek(sp, 0));
     return 0;
 }
 
