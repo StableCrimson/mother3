@@ -27,7 +27,7 @@ extern void sub_08013EB8();
 extern void sub_08003BF8(u16);
 extern s16 sub_08003D14(u16);
 extern u16 sub_08003D48(u16);
-extern void sub_08033548(u8); 
+extern void sub_08033548(u8);
 extern u8 sub_0801B3A4(u16);
 extern void sub_080274AC(s32, u16);
 extern u16 sub_08002FD4(u16, s32);
@@ -4644,12 +4644,11 @@ extern "C" ASM_FUNC("asm/non_matching/script/cmd_72.inc", void cmd_72());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_73.inc", void cmd_73());
 
 extern "C" s32 cmd_set_palettes(s32* sp) {
-
     u16 unkA = scriptstack_peek(sp, 2);
     u16 unkB = scriptstack_peek(sp, 1);
     u16 unkC = scriptstack_peek(sp, 0);
     u16 unkD = unkA == 0 ? 0xA : 0xB;
-    
+
     sub_080272F4(unkD, unkB, unkC);
     return 0;
 }
@@ -4667,10 +4666,10 @@ extern "C" ASM_FUNC("asm/non_matching/script/cmd_play_anim_above.inc", void cmd_
 
 extern "C" s32 cmd_79(s32* sp) {
     Object* obj = get_obj(scriptstack_peek(sp, 0));
-    
-    if (obj != NULL) 
+
+    if (obj != NULL)
         sub_08033548(obj->character);
-    
+
     return 0;
 }
 
@@ -4703,7 +4702,7 @@ extern "C" ASM_FUNC("asm/non_matching/script/cmd_CE.inc", void cmd_CE());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_CF.inc", void cmd_CF());
 
 extern "C" s32 cmd_D1(s32* sp) {
-    sub_080274AC(0xA, (u16) scriptstack_peek(sp, 0));
+    sub_080274AC(0xA, (u16)scriptstack_peek(sp, 0));
     return 0;
 }
 

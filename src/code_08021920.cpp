@@ -1,5 +1,6 @@
 // Auto-generated source file
 #include "global.h"
+#include "script.h"
 #include "structs.h"
 
 extern "C" Object* get_obj_direct(s32 idx);
@@ -124,7 +125,37 @@ extern "C" ASM_FUNC("asm/non_matching/code_08021920/sub_080270E8.inc", void sub_
 extern "C" ASM_FUNC("asm/non_matching/code_08021920/sub_080270F8.inc", void sub_080270F8());
 extern "C" ASM_FUNC("asm/non_matching/code_08021920/sub_08027138.inc", void sub_08027138());
 extern "C" ASM_FUNC("asm/non_matching/code_08021920/sub_08027164.inc", void sub_08027164());
-extern "C" ASM_FUNC("asm/non_matching/code_08021920/get_obj.inc", void get_obj());
+
+extern "C" Object* get_obj(s32 idx) {
+    if (idx >= 0x19) {
+        idx -= 0x19;
+
+        if (gGame._82b9[0xc9] & 8) {
+            idx += gGame._82b9[0xb7] + ~gGame._82b9[0xba] + 5;
+        } else {
+            idx += gGame._82b9[0xb7] - gGame._82b9[0xba] + 5;
+        }
+
+        if (idx > 0x18) {
+            return NULL;
+        }
+
+    } else if (idx == -1) {
+        if (gGame._8450 == -1) {
+            return NULL;
+        }
+        idx = gGame._8450;
+    } else if (idx == -2) {
+        idx = 0;
+    } else if (idx == -3) {
+        return NULL;
+    } else if ((u32)idx <= 4 && idx >= gGame.party_count) {
+        return NULL;
+    }
+
+    return get_obj_direct((u16)idx);
+}
+
 extern "C" ASM_FUNC("asm/non_matching/code_08021920/sub_0802724C.inc", void sub_0802724C());
 extern "C" ASM_FUNC("asm/non_matching/code_08021920/sub_080272F4.inc", void sub_080272F4(u16, u16, u16));
 extern "C" ASM_FUNC("asm/non_matching/code_08021920/sub_080274AC.inc", void sub_080274AC(s32, u16));
