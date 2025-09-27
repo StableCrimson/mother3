@@ -253,7 +253,11 @@ extern "C" ASM_FUNC("asm/non_matching/code_08021920/sub_0802B53C.inc", void sub_
 extern "C" ASM_FUNC("asm/non_matching/code_08021920/sub_0802B57C.inc", void sub_0802B57C());
 extern "C" ASM_FUNC("asm/non_matching/code_08021920/sub_0802B5D8.inc", void sub_0802B5D8());
 extern "C" ASM_FUNC("asm/non_matching/code_08021920/sub_0802B844.inc", void sub_0802B844());
-extern "C" ASM_FUNC("asm/non_matching/code_08021920/get_char_stats.inc", void get_char_stats());
+
+extern "C" CharStats* get_char_stats(u16 idx) {
+    return &gCharStats[gSave.party[idx]];
+}
+
 extern "C" ASM_FUNC("asm/non_matching/code_08021920/sub_0802B874.inc", void sub_0802B874());
 extern "C" ASM_FUNC("asm/non_matching/code_08021920/sub_0802B88C.inc", void sub_0802B88C());
 extern "C" ASM_FUNC("asm/non_matching/code_08021920/sub_0802B8C4.inc", void sub_0802B8C4());
