@@ -16,6 +16,7 @@ extern s16 gUnknown_02004850;
 
 extern void sub_080517AC(s32);
 extern void sub_08037A7C();
+extern void sub_08019D04();
 extern void sub_08003C20(u16);
 extern void sub_080052E4(s32);
 extern void sub_0803C4DC(s32);
@@ -4673,7 +4674,12 @@ extern "C" s32 cmd_79(s32* sp) {
 }
 
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_7A.inc", void cmd_7A());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_7B.inc", void cmd_7B());
+
+extern "C" s32 cmd_7B() {
+    sub_08019D04();
+    return 0;
+}
+
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_7C.inc", void cmd_7C());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_7D.inc", void cmd_7D());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_7E.inc", void cmd_7E());
