@@ -3,7 +3,7 @@
 #include "script.h"
 #include "structs.h"
 
-extern "C" Object* get_obj_direct(s32 idx);
+extern Object gUnknown_0200C3C8[0x109];
 
 extern "C" ASM_FUNC("asm/non_matching/code_08021920/sub_08021920.inc", void sub_08021920());
 extern "C" ASM_FUNC("asm/non_matching/code_08021920/sub_08021930.inc", void sub_08021930());
@@ -568,7 +568,11 @@ extern "C" ASM_FUNC("asm/non_matching/code_08021920/sub_08036A90.inc", void sub_
 extern "C" ASM_FUNC("asm/non_matching/code_08021920/sub_08036B34.inc", void sub_08036B34());
 extern "C" ASM_FUNC("asm/non_matching/code_08021920/sub_08036B6C.inc", void sub_08036B6C());
 extern "C" ASM_FUNC("asm/non_matching/code_08021920/sub_08036BA4.inc", void sub_08036BA4());
-extern "C" ASM_FUNC("asm/non_matching/code_08021920/get_obj_direct.inc", Object* get_obj_direct(s32 id));
+
+extern "C" Object* get_obj_direct(u16 idx) {
+    return &gUnknown_0200C3C8[idx];
+}
+
 extern "C" ASM_FUNC("asm/non_matching/code_08021920/sub_08036BEC.inc", void sub_08036BEC());
 extern "C" ASM_FUNC("asm/non_matching/code_08021920/sub_08036C00.inc", void sub_08036C00());
 extern "C" ASM_FUNC("asm/non_matching/code_08021920/sub_08036C24.inc", void sub_08036C24());
