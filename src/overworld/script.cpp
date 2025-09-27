@@ -25,6 +25,7 @@ extern void sub_08013EB8();
 extern void sub_08003BF8(u16);
 extern s16 sub_08003D14(u16);
 extern u16 sub_08003D48(u16);
+extern void sub_08033548(u8); 
 extern u8 sub_0801B3A4(u16);
 extern void sub_080274AC(s32, u16);
 extern u16 sub_08002FD4(u16, s32);
@@ -4661,7 +4662,16 @@ extern "C" s32 cmd_75(s32* sp) {
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_76.inc", void cmd_76());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_stop_shake.inc", void cmd_stop_shake());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_play_anim_above.inc", void cmd_play_anim_above());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_79.inc", void cmd_79());
+
+extern "C" s32 cmd_79(s32* sp) {
+    Object* obj = get_obj(scriptstack_peek(sp, 0));
+    
+    if (obj != NULL) 
+        sub_08033548(obj->character);
+    
+    return 0;
+}
+
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_7A.inc", void cmd_7A());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_7B.inc", void cmd_7B());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_7C.inc", void cmd_7C());
