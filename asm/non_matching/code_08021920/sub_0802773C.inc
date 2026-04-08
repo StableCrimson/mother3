@@ -6,7 +6,7 @@ sub_0802773C:
 	movs r2, #0x80
 	lsls r2, r2, #3
 	adds r1, r4, #0
-	bl sub_08001B18
+	bl CpuSmartSet
 	ldr r0, _08027768
 	adds r4, r4, r0
 	ldrb r0, [r4]
@@ -50,7 +50,7 @@ _08027784:
 	lsls r3, r3, #1
 	adds r1, r4, r3
 	movs r2, #0x40
-	bl sub_08001B18
+	bl CpuSmartSet
 	b _08027812
 	.align 2, 0
 _080277B8: .4byte gUnknown_03005314
@@ -63,7 +63,7 @@ _080277C8:
 	lsls r1, r1, #3
 	movs r2, #1
 	rsbs r2, r2, #0
-	bl sub_08001B54
+	bl memFill
 	ldr r1, _080277F8
 	ldr r2, _080277FC
 	adds r0, r1, r2

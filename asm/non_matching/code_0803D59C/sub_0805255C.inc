@@ -55,7 +55,7 @@ _08052580:
 	strb r0, [r4, #2]
 	mov r0, r8
 	adds r1, r6, #0
-	bl sub_08055180
+	bl isEquipLytSet
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #9
 	ldrb r1, [r4, #2]
@@ -106,7 +106,7 @@ _08052580:
 _0805262C: .4byte gUnknown_020194A8
 _08052630: .4byte 0x00000DEC
 _08052634: .4byte gGoodsInfo
-_08052638: .4byte gUnknown_080E510C
+_08052638: .4byte gGoodsInfo+0x4
 _0805263C: .4byte gSomeBlend
 _08052640: .4byte 0x00004260
 _08052644: .4byte 0x00002DF0

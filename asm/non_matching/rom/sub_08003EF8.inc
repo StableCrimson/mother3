@@ -20,7 +20,7 @@ sub_08003EF8:
 	movs r2, #1
 	rsbs r2, r2, #0
 	adds r1, r4, #0
-	bl sub_08001B54
+	bl memFill
 	movs r0, #0xc0
 	lsls r0, r0, #0x13
 	movs r1, #0xc0
@@ -94,7 +94,7 @@ _08003FA8:
 	adds r4, r4, r1
 	adds r1, r4, #0
 	movs r2, #0x80
-	bl sub_08001B18
+	bl CpuSmartSet
 	b _08004028
 	.align 2, 0
 _08003FE4: .4byte gGame

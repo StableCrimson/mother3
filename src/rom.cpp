@@ -1,4 +1,5 @@
 // Auto-generated source file
+#include "battle/guest.h"
 #include "battle/irc.h"
 #include "gba/gba.h"
 #include "gba/macro.h"
@@ -30,7 +31,7 @@ extern "C" void CpuFastSet(const void* src, void* dest, u32 control);
 extern "C" void sub_08000D88();
 extern "C" void sub_08090F90(s32);
 extern "C" s32 sub_08002FD4(s32, s32);
-extern "C" const void* sub_0800289C(const void*, u16);
+extern "C" const void* Blob_GetEntry(const void*, u16);
 extern "C" u16 sub_0801A638(u16);
 extern "C" MusicPlayerInfo* sub_08003DF8(u16);
 extern "C" void sub_0801A238(s32, MovementVector*);
@@ -278,26 +279,32 @@ extern "C" ASM_FUNC("asm/non_matching/rom/sub_08001A70.inc", void sub_08001A70()
 extern "C" ASM_FUNC("asm/non_matching/rom/sub_08001A94.inc", void sub_08001A94());
 extern "C" ASM_FUNC("asm/non_matching/rom/sub_08001AAC.inc", void sub_08001AAC());
 extern "C" ASM_FUNC("asm/non_matching/rom/memclear.inc", void memclear());
-extern "C" ASM_FUNC("asm/non_matching/rom/sub_08001B18.inc", void sub_08001B18());
-extern "C" ASM_FUNC("asm/non_matching/rom/sub_08001B54.inc", void sub_08001B54());
+extern "C" ASM_FUNC("asm/non_matching/rom/CpuSmartSet.inc", void CpuSmartSet());
+extern "C" ASM_FUNC("asm/non_matching/rom/memFill.inc", void memFill());
 extern "C" ASM_FUNC("asm/non_matching/rom/sub_08001B9C.inc", void sub_08001B9C());
 extern "C" ASM_FUNC("asm/non_matching/rom/sub_08001BCC.inc", void sub_08001BCC());
 extern "C" ASM_FUNC("asm/non_matching/rom/sub_08001BFC.inc", void sub_08001BFC());
 extern "C" ASM_FUNC("asm/non_matching/rom/sub_08001C2C.inc", void sub_08001C2C());
 extern "C" ASM_FUNC("asm/non_matching/rom/get_misctext_msg.inc", void get_misctext_msg());
 
-extern "C" u16 isCharOverworldPlayable(u16 playerID) {
+extern "C" u16 isCharIdOverworldPlayable(u16 playerID) {
     if (gLevelStatTable[playerID].overworld_playable != 0) {
         return 0;
     }
     return 1;
 }
 
-extern "C" ASM_FUNC("asm/non_matching/rom/sub_08001D58.inc", void sub_08001D58());
+extern "C" u16 isLucasOrKumatora(u16 id) {
+    if (id == PartyMemberID::Lucas || id == PartyMemberID::Kumatora) {
+        return 1;
+    }
+    return 0;
+}
+
 extern "C" ASM_FUNC("asm/non_matching/rom/sub_08001D70.inc", void sub_08001D70());
 
 extern "C" u16 get_misctext_len(u16 index) {
-    return *(u16*)sub_0800289C(&_binary_build_mother3_assets_misctext_bin_start, index);
+    return *(u16*)Blob_GetEntry(&_binary_build_mother3_assets_misctext_bin_start, index);
 }
 
 extern "C" ASM_FUNC("asm/non_matching/rom/sub_08001DC8.inc", void sub_08001DC8());
@@ -310,11 +317,42 @@ extern "C" ASM_FUNC("asm/non_matching/rom/sub_08002104.inc", void sub_08002104()
 extern "C" ASM_FUNC("asm/non_matching/rom/sub_08002254.inc", void sub_08002254());
 extern "C" ASM_FUNC("asm/non_matching/rom/sub_080023A4.inc", void sub_080023A4());
 extern "C" ASM_FUNC("asm/non_matching/rom/sub_080023E0.inc", void sub_080023E0());
-extern "C" ASM_FUNC("asm/non_matching/rom/sub_08002420.inc", void sub_08002420());
+
+extern "C" void copyText(u16* dest, u16* src, s16 len) {
+    if (len == -1) {
+        while (*src != 0xFFFF) {
+            *dest = *src;
+            src++;
+            dest++;
+        }
+
+        *dest = 0xFFFF;
+    } else {
+        for (u16 i = 0; i < len; i++) {
+            *dest = *src;
+            src++;
+            dest++;
+        }
+    }
+}
+
 extern "C" ASM_FUNC("asm/non_matching/rom/sub_08002474.inc", void sub_08002474());
 extern "C" ASM_FUNC("asm/non_matching/rom/sub_080024F0.inc", void sub_080024F0());
 extern "C" ASM_FUNC("asm/non_matching/rom/sub_0800255C.inc", void sub_0800255C());
-extern "C" ASM_FUNC("asm/non_matching/rom/sub_080025A0.inc", void sub_080025A0());
+
+extern "C" u16* getNthMemoPage(u16* buf, u16 line) {
+    for (u16 i = 0; i < line; i++) {
+        u16 currentChar = *buf;
+
+        do {
+            currentChar = *buf;
+            buf++;
+        } while (currentChar != 0xFFFF && currentChar != 0xFF00);
+    }
+
+    return buf;
+}
+
 extern "C" ASM_FUNC("asm/non_matching/rom/sub_080025D8.inc", void sub_080025D8());
 extern "C" ASM_FUNC("asm/non_matching/rom/sub_08002604.inc", void sub_08002604());
 
@@ -408,19 +446,19 @@ extern "C" void sub_0800282C(u16 r0, u16 r1, u16* r2, u16* r3) {
     }
 }
 
-extern "C" const void* sub_0800289C(const void* src, u16 index) {
+extern "C" const void* Blob_GetEntry(const void* src, u16 index) {
     uintptr_t base = (uintptr_t)src;
     u32 offset = ((u32*)src)[index + 1];
     return (const void*)(base + offset);
 }
 
-extern "C" u32 sub_080028A8(const void* src, u16 index) {
+extern "C" u32 Blob_GetEntrySize(const void* src, u16 index) {
     u32 next = ((u32*)src)[index + 2];
     u32 offset = ((u32*)src)[index + 1];
     return next - offset;
 }
 
-extern "C" u32 sub_080028B8(const void* src) {
+extern "C" u32 Blob_GetNumEntries(const void* src) {
     return ((u32*)src)[0];
 }
 
@@ -460,7 +498,7 @@ extern "C" u32 sub_080029D4(u16 idx) {
     return gSave.mIQ0[idx * 2] | (gSave.mIQ0[idx * 2 + 1] << 8);
 }
 
-extern "C" void sub_080029F8(u16 idx, u16 value) {
+extern "C" void set_giftbox_flag(u16 idx, u16 value) {
     gSave.giftbox_flags[idx / 8] =
         (gSave.giftbox_flags[idx / 8] & ~(1 << (idx % 8))) | ((value & 1) << (idx % 8));
 }

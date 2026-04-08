@@ -12,7 +12,7 @@ sub_08022694:
 	ldr r2, _080226FC
 	adds r0, r6, #0
 	movs r1, #0x28
-	bl sub_08001B54
+	bl memFill
 	ldr r0, _08022700
 	adds r1, r4, r0
 	ldr r0, _08022704
@@ -25,7 +25,7 @@ sub_08022694:
 	lsrs r2, r2, #0x10
 	adds r0, r5, #0
 	adds r1, r6, #0
-	bl sub_08001B18
+	bl CpuSmartSet
 	ldr r1, _08022708
 	adds r0, r4, r1
 	ldrh r1, [r0]

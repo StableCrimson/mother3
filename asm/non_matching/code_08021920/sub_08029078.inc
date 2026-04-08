@@ -93,7 +93,7 @@ _08029124:
 	adds r1, #1
 	strb r1, [r0]
 	adds r0, r4, #0
-	bl isCharOverworldPlayable
+	bl isCharIdOverworldPlayable
 	lsls r0, r0, #0x10
 	cmp r0, #0
 	beq _08029154
@@ -118,7 +118,7 @@ _08029154:
 	adds r0, r4, #0
 	adds r1, r5, #0
 	movs r2, #0xd0
-	bl sub_08001B18
+	bl CpuSmartSet
 	ldrh r0, [r6]
 	bl sub_08036D18
 	ldrh r0, [r6]
@@ -331,7 +331,7 @@ _0802930E:
 	movs r2, #0x82
 	lsls r2, r2, #3
 	mov r0, sp
-	bl sub_08001B18
+	bl CpuSmartSet
 	movs r3, #0x83
 	lsls r3, r3, #3
 	add sp, r3

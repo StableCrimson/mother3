@@ -29,7 +29,7 @@ _08047FF2:
 	lsrs r2, r4, #0x10
 	adds r0, r5, #0
 	add r1, sp, #4
-	bl sub_08001B18
+	bl CpuSmartSet
 	lsrs r4, r4, #0x11
 	lsls r4, r4, #1
 	mov r1, sp
@@ -45,7 +45,7 @@ _08047FF2:
 	adds r0, r4, #0
 	movs r1, #0x30
 	adds r2, r7, #0
-	bl sub_08001B54
+	bl memFill
 	adds r0, r4, #0
 	add r1, sp, #4
 	bl sub_08048108

@@ -401,7 +401,7 @@ u16 cmd_reload_room() {
     if (gGame._8484 != 0) {
         gSomeBlend._121bb_10 = 1;
         sub_0800AD6C();
-        sub_08001B18(&gGame._9488, &gUnknown_03005314, 0x400);
+        CpuSmartSet(&gGame._9488, &gUnknown_03005314, 0x400);
         gGame.mode = MODE_FADE_IN;
         sub_08013D38();
         sub_0802610C(0);
@@ -846,7 +846,7 @@ u16 cmd_get_item_count(s32* sp) {
     for (u16 i = 0; i < gGame.party_count; ++i) {
         item = get_char_stats(i);
         if (item->charNo != 0) {
-            temp = isCharOverworldPlayable(item->charNo);
+            temp = isCharIdOverworldPlayable(item->charNo);
             if (temp != 0) {
                 cnt += heldItemQty(item, idx);
             }
@@ -1046,7 +1046,7 @@ u16 cmd_set_giftbox_flag(s32* sp) {
     idx = scriptstack_peek(sp, 1);
     val = scriptstack_peek(sp, 0) & 1;
     if (idx < 0x400) {
-        sub_080029F8(idx, val);
+        set_giftbox_flag(idx, val);
     }
     return 0;
 }
@@ -1525,7 +1525,7 @@ u16 cmd_E7(s32* sp) {
         chr = spr->character;
         if (chr < 5) {
             cd = get_char_stats(chr);
-            c = isCharOverworldPlayable(cd->charNo);
+            c = isCharIdOverworldPlayable(cd->charNo);
             if (c != 0) {
                 sub_0805BC8C(&t, cd->charNo, b);
                 gSomeBlend._121c8 = t;
@@ -1849,7 +1849,7 @@ u16 cmd_put_ocho(s32* sp) {
     cnt = 0;
     for (u16 i = 0; i < gGame.party_count; ++i) {
         cd = get_char_stats(i);
-        if (cd->charNo != 0 && isCharOverworldPlayable(cd->charNo) != 0) {
+        if (cd->charNo != 0 && isCharIdOverworldPlayable(cd->charNo) != 0) {
             sub_0802A7F8(cd, cnt);
             cnt++;
         }
@@ -1865,7 +1865,7 @@ u16 cmd_get_ocho(s32* sp) {
     } else {
         for (u16 i = 0; i < gGame.party_count; ++i) {
             cd = get_char_stats(i);
-            if (cd->charNo != 0 && isCharOverworldPlayable(cd->charNo) != 0) {
+            if (cd->charNo != 0 && isCharIdOverworldPlayable(cd->charNo) != 0) {
                 sub_0802A8D4(cd);
             }
         }
@@ -4192,7 +4192,7 @@ u16 cmd_68(s32* sp) {
         switch (gGame.state_1) {
         case 2:
         case 3:
-            sub_08001B18(gUnknown_030055F4, &gGame._948c[0x16E], 0xA0);
+            CpuSmartSet(gUnknown_030055F4, &gGame._948c[0x16E], 0xA0);
             break;
         }
     }
@@ -4306,7 +4306,7 @@ u16 cmd_B4(s32* sp) {
 u16 cmd_load_sprite_table(s32* sp) {
     u16 a = scriptstack_peek(sp, 0);
     if (a < 5) {
-        gGame._2_2 = a;
+        gGame._2_40 = a;
     }
 
     return 0;
@@ -4470,7 +4470,7 @@ u16 cmd_C5(s32* sp) {
         case 1:
         case 2:
         case 4:
-            sub_08001B18(gUnknown_030055F4, &gGame._948c[0x16E], 0xa0);
+            CpuSmartSet(gUnknown_030055F4, &gGame._948c[0x16E], 0xa0);
             memclear(gUnknown_030055F4, 0xa0);
             break;
         }
@@ -4503,7 +4503,7 @@ u16 cmd_C5(s32* sp) {
         case 1:
         case 2:
         case 4:
-            sub_08001B18(gUnknown_030055F4, &gGame._948c[0x16e], 0xa0);
+            CpuSmartSet(gUnknown_030055F4, &gGame._948c[0x16e], 0xa0);
             memclear(gUnknown_030055F4, 0xa0);
         }
         sub_08034FFC();
@@ -4634,7 +4634,7 @@ extern "C" s32 cmd_set_fade(s32* sp) {
 
 extern "C" s32 cmd_fade_in(s32* sp) {
     if (gGame._595b[0] != 1) {
-        sub_08001B18(&gGame._9488, &gUnknown_03005314, 0x400);
+        CpuSmartSet(&gGame._9488, &gUnknown_03005314, 0x400);
         u8 lastGameMode = gGame.mode;
         gSomeBlend.bldcnt = 0;
         gSomeBlend.bldalpha = 0;
@@ -4652,7 +4652,7 @@ extern "C" s32 cmd_fade_in(s32* sp) {
 
 extern "C" s32 cmd_play_fade(s32* sp) {
     if (gGame._595b[1] != 1) {
-        sub_08001B18((u32*)&gUnknown_03005314, (u16*)&gGame._9488, 0x400);
+        CpuSmartSet((u32*)&gUnknown_03005314, (u16*)&gGame._9488, 0x400);
         u8 lastGameMode = gGame.mode;
         gGame.mode = MODE_LOAD_ROOM;
         gGame._5960 = scriptstack_peek(sp, 0);

@@ -41,7 +41,7 @@ sub_080250B4:
 	rsbs r2, r2, #0
 	adds r0, r4, #0
 	movs r1, #0x1a
-	bl sub_08001B54
+	bl memFill
 	ldrh r1, [r7]
 	ldr r0, _08025128
 	cmp r1, r0
@@ -67,7 +67,7 @@ _0802513C:
 	adds r0, r7, #0
 	adds r1, r4, #0
 	movs r2, #0x1a
-	bl sub_08001B18
+	bl CpuSmartSet
 _08025146:
 	adds r1, r5, #0
 	adds r1, #0x1c

@@ -12,7 +12,7 @@ sub_080430B4:
 	ldr r0, _080431D8
 	add r1, sp, #4
 	movs r2, #0x14
-	bl sub_08001B18
+	bl CpuSmartSet
 	movs r5, #0
 	ldr r0, _080431DC
 	ldr r1, _080431E0
@@ -28,7 +28,7 @@ sub_080430B4:
 	mov r8, r0
 _080430EA:
 	adds r0, r5, #0
-	bl sub_08054FE0
+	bl getBufferedCharStats
 	adds r1, r0, #0
 	ldrb r0, [r1]
 	cmp r0, #0
