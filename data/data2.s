@@ -293,19 +293,20 @@ gUnknown_08101A8C:
 gUnknown_08101BE0:
     .incbin "baserom.gba", 0x00101BE0, 0xD0
 
-    .global gUnknown_08101CB0
-gUnknown_08101CB0:
-    .incbin "baserom.gba", 0x00101CB0, 0xC
+    .global const_classname_SndSystem
+const_classname_SndSystem:
+    .ascii "SndSystem"
+    .byte 0, 0, 0
 
     .global gUnknown_08101CBC
 gUnknown_08101CBC:
     .4byte 0xFFFF0000
-    .4byte sub_0806FF04+1
+    .4byte sndsystem_main+1
 
     .global gUnknown_08101CC4
 gUnknown_08101CC4:
     .4byte 0xFFFF0000
-    .4byte sub_0806FF10+1
+    .4byte sndsystem_vsync+1
     .incbin "baserom.gba", 0x00101CCC, 0x1A0
 
     .global gUnknown_08101E6C

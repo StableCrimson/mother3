@@ -4,6 +4,7 @@
 #include "battle/guest.h"
 #include "enums.h"
 #include "functions.h"
+#include "rom_sound.h"
 
 extern "C" {
 
@@ -20,17 +21,11 @@ extern void sub_08037A7C();
 extern void sub_08019D04();
 extern void sub_0802781C();
 extern void sub_08004794();
-extern void sub_08003C20(u16);
 extern void sub_080052E4(s32);
 extern void sub_0803C4DC(s32);
-extern void startSong(s32);
 extern void sub_08026610(u8);
 extern void sub_08013EB8();
-extern void sub_08003BF8(u16);
-extern s16 getCurrentTrack(u16);
-extern u16 sub_08003D48(u16);
 extern void sub_08033548(u8);
-extern u8 getMusicIDForRoom(u16);
 extern void sub_080274AC(s32, u16);
 extern u16 sub_08002FD4(u16, s32);
 extern s32 sub_08002474(s32, s32, s32);
@@ -38,11 +33,7 @@ extern void sub_080272F4(u16, u16, u16);
 extern s32 sub_08022354(s32);
 extern s32 sub_08039B24(s32);
 extern u16 sub_080031E0();
-extern void sub_08003C88(u16, u16);
-extern s32 sub_08003E20(u16);
 extern void DoReset();
-extern s16 getMusicPlayerIndex(u16);
-extern void play_sound(u16);
 
 // not functionally equivalent
 NONMATCH("asm/non_matching/script/exec_cmd.inc", void exec_cmd(void* script, u16* unk)) {
@@ -4772,28 +4763,129 @@ extern "C" s32 cmd_disp_staffroll() {
     return 0;
 }
 
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_play_sound_ext.inc", void cmd_play_sound_ext());
-
-extern "C" s32 cmd_play_sound(s32* sp) {
-    u16 sound = scriptstack_peek(sp, 1);
-    s16 unk = scriptstack_peek(sp, 0);
-    play_sound(sound);
-
-    if (unk != -1) {
-        s16 playerIndex = getMusicPlayerIndex(sound);
-        u16 uPlayerIndex = (u16)playerIndex;
-
-        if (playerIndex != -1)
-            sub_08003C88(uPlayerIndex, (u16)sub_08003E20(unk));
+extern "C" s32 cmd_play_sound_ext(s32* sp) {
+    s16 mpIndex;
+    s16 sound = scriptstack_peek(sp, 1);
+    s16 vol = scriptstack_peek(sp, 0);
+    s16 state1 = gGame.state_1;
+    
+    if (state1 <= 3) {
+        s32 cmp = 2; // FAKEMATCH
+        if (state1 >= cmp) {
+            gGame._847a = sound;
+            gGame._847c = vol;
+    
+            if (get_flag(0x410) != 0) {
+                startSong(sound);
+            }
+            return 0;
+        }
+    } 
+    
+    if (sound == -1) {
+        setup_overworld_music(gGame.cur_room, vol);
+    } else {
+        if ((mpIndex = getMusicPlayerIndex(sound)) != -1) {
+            startSong(sound);
+            
+            if (vol != -1) {
+                musicPlayerInitAndUpdateVolume(mpIndex, percentToMPlayVolume(vol));
+            }
+            switch (mpIndex) {
+            case 0:
+                gGame.cur_track = sound;
+                break;
+            case 1:
+                gGame.cur_track_alt = sound;
+                break;
+            }
+        }
     }
+    
     return 0;
 }
 
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_84.inc", void cmd_84());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_85.inc", void cmd_85());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_86.inc", void cmd_86());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_87.inc", void cmd_87());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_88.inc", void cmd_88());
+extern "C" s32 cmd_play_sound(s32* sp) {
+    s16 mpIndex;
+    u16 sound = scriptstack_peek(sp, 1);
+    s16 vol_percent = scriptstack_peek(sp, 0);
+    
+    play_sound(sound);
+
+    if (vol_percent == -1)
+        return 0;
+
+    if ((mpIndex = getMusicPlayerIndex(sound)) != -1){
+        musicPlayerInitAndUpdateVolume(mpIndex, percentToMPlayVolume(vol_percent));
+    }
+
+    return 0;
+}
+
+extern "C" s32 cmd_fade_bgm(s32* sp) {
+    u16 fade_type = scriptstack_peek(sp, 2);
+    u16 mpIndex = scriptstack_peek(sp, 1);
+    u16 speed = scriptstack_peek(sp, 0);
+    
+    if (fade_type == 0) {
+        musicPlayerFadeInIfPaused_bgm(mpIndex, speed);
+    } else {
+        musicPlayerFadeOutTemp_bgm(mpIndex, speed);
+    }
+    
+    return 0;
+}
+
+extern "C" s32 cmd_fade_sfx(s32* sp) {
+    u16 fade_type = scriptstack_peek(sp, 2);
+    u16 mpIndex = scriptstack_peek(sp, 1);
+    u16 speed = scriptstack_peek(sp, 0);
+    
+    if (fade_type == 0) {
+        musicPlayerFadeIn_sfx(mpIndex, speed);
+    } else {
+        musicPlayerFadeOut_sfx(mpIndex, speed);
+    }
+    
+    return 0;
+}
+
+extern "C" s32 cmd_stop_bgm(s32* sp) {
+    s16 mpIndex = scriptstack_peek(sp, 0);
+    
+    if (mpIndex == -1) {
+        musicPlayerStop_bgm(0);
+        musicPlayerStop_bgm(1);
+    } else {
+        musicPlayerStop_bgm(mpIndex);
+    }
+    
+    return 0;
+}
+
+extern "C" s32 cmd_stop_sfx(s32* sp) {
+    s16 mpIndex = scriptstack_peek(sp, 0);
+    
+    if (mpIndex == -1) {
+        musicPlayerStop_sfx(3);
+        musicPlayerStop_sfx(4);
+        musicPlayerStop_sfx(5);
+    } else {
+        musicPlayerStop_sfx(mpIndex);
+    }
+    
+    return 0;
+}
+
+extern "C" s32 cmd_88(s32* arg0) {
+    u16 a = scriptstack_peek(arg0, 3);
+    u16 b = scriptstack_peek(arg0, 2);
+    u16 c = scriptstack_peek(arg0, 1);
+    u16 d = scriptstack_peek(arg0, 0);
+    
+    sub_08027BD0(a, b, c, d);
+    return 0;
+}
 
 extern "C" s32 cmd_set_bgm(s32* sp) {
     u16 lower;
@@ -4822,8 +4914,8 @@ extern "C" ASM_FUNC("asm/non_matching/script/cmd_set_bgm_other.inc", void cmd_se
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_8A.inc", void cmd_8A());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_CB.inc", void cmd_CB());
 
-extern "C" s32 cmd_D0(s32* sp) {
-    scriptstack_push(sub_08003D48(scriptstack_peek(sp, 0)));
+extern "C" s32 cmd_push_current_track(s32* sp) {
+    scriptstack_push(getMusicPlayerVolumePercent(scriptstack_peek(sp, 0)));
     return 0;
 }
 
@@ -4844,23 +4936,23 @@ extern "C" s32 cmd_set_volume(s32* sp) {
 }
 
 extern "C" s32 cmd_DB(s32* sp) {
-    s16 unk = scriptstack_peek(sp, 0);
-    if (unk == -1) {
-        sub_08003BF8(0);
-        sub_08003BF8(1);
+    s16 mpIndex = scriptstack_peek(sp, 0);
+    if (mpIndex == -1) {
+        musicPlayerPause_bgm(0);
+        musicPlayerPause_bgm(1);
     } else {
-        sub_08003BF8(unk);
+        musicPlayerPause_bgm(mpIndex);
     }
     return 0;
 }
 
 extern "C" s32 cmd_DC(s32* sp) {
-    s16 unk = scriptstack_peek(sp, 0);
-    if (unk == -1) {
-        sub_08003C20(0);
-        sub_08003C20(1);
+    s16 mpIndex = scriptstack_peek(sp, 0);
+    if (mpIndex == -1) {
+        musicPlayerContinue_bgm(0);
+        musicPlayerContinue_bgm(1);
     } else {
-        sub_08003C20(unk);
+        musicPlayerContinue_bgm(mpIndex);
     }
     return 0;
 }
@@ -4870,7 +4962,66 @@ extern "C" s32 cmd_E1(s32* sp) {
     return 0;
 }
 
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_play_sfx.inc", void cmd_play_sfx());
+extern "C" s32 cmd_play_sfx(s32* sp) {
+    u16 unk;
+
+    u16 sfx = scriptstack_peek(sp, 0); //r0 
+    switch (sfx) {
+    case 0:
+        sfx = 0x6D;
+        unk = 0x138;
+        break;
+    case 1:
+        sfx = 0x6E;
+        unk = 0x97;
+        break;
+    case 2:
+        sfx = 0x77;
+        unk = 0x174;
+        break;
+    case 3:
+        sfx = 0x78;
+        unk = 0xB4;
+        break;
+    case 4:
+        sfx = 0xC9;
+        unk = 0x5E;
+        break;
+    case 5:
+        sfx = 0x2B;
+        unk = 0xFC;
+        break;
+    case 6:
+        sfx = 0x1A4;
+        unk = 0xC8;
+        break;
+    case 7:
+        sfx = 0x72;
+        unk = 0xB8;
+        break;
+    case 8:
+        sfx = 0xCB;
+        unk = 0xB4;
+        break;
+    case 9:
+        sfx = 0x1B3;
+        unk = 0xB4;
+        break;
+    case 10:
+        sfx = 0x5EF;
+        unk = 0xA2;
+        break;
+    default:
+        return 0;
+    }
+
+    sub_08027C20(sfx, 0x50, unk + 0x50);
+    sub_08027B84(0, getMusicPlayerVolumePercent(0), 0, 0x20);
+    sub_08027B84(1, getMusicPlayerVolumePercent(1), 0, 0x20);
+    
+    return 0;
+}
+
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_init_battle.inc", void cmd_init_battle());
 
 extern "C" s32 cmd_8D() {

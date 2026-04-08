@@ -113,9 +113,9 @@
 . = 0x00001F00; gUnknown_02001F00 = .;
 . = 0x00001F0C; gUnknown_02001F0C = .;
 . = 0x00001F10; gUnknown_02001F10 = .;
-. = 0x00001F14; gUnknown_02001F14 = .;
-. = 0x00001F20; gUnknown_02001F20 = .;
-. = 0x00001F24; gUnknown_02001F24 = .;
+. = 0x00001F14; sSndSystemManager = .;
+. = 0x00001F20; _16SndSystemManager.mSingletonGuard = .;
+. = 0x00001F24; _16SndSystemManager.mSingleton = .;
 . = 0x00001F28; gUnknown_02001F28 = .;
 . = 0x00001F68; gSystemAllocator = .;
 . = 0x00001F70; sSystemAllocator = .;
@@ -309,7 +309,7 @@
 . = 0x00015EC0; gMPlayTrackTable = .;
 . = 0x00015ED8; gMPlayPrevTrackTable = .;
 . = 0x00015EF0; gMPlayVolumeTable = .;
-. = 0x00015F08; gUnknown_02015F08 = .;
+. = 0x00015F08; gMPlayVolumeStorageTable = .;
 . = 0x00015F1C; gAudioSynced = .;
 . = 0x00015F20; gUnknown_02015F20 = .;
 . = 0x00015F22; gUnknown_02015F22 = .;
@@ -392,9 +392,7 @@
 . = 0x0001B184; gUnknown_0201B184 = .;
 . = 0x0001B574; gUnknown_0201B574 = .;
 . = 0x0001B694; gUnknown_0201B694 = .;
-. = 0x0001B6A4; gUnknown_0201B6A4 = .;
-. = 0x0001B71C; gUnknown_0201B71C = .;
-. = 0x0001B794; gUnknown_0201B794 = .;
+. = 0x0001B6A4; gSoundUnkInfos = .;
 . = 0x0001B7A0; gUnknown_0201B7A0 = .;
 . = 0x0001D428; gUnknown_0201D428 = .;
 . = 0x0001E908; gUnknown_0201E908 = .;
