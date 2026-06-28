@@ -10,7 +10,7 @@ sub_0802B188:
 	b _0802B368
 _0802B19A:
 	movs r0, #2
-	bl sub_0802B8C4
+	bl getSavedPartyMemberIndex
 	lsls r0, r0, #0x10
 	lsrs r2, r0, #0x10
 	asrs r0, r0, #0x10
@@ -114,7 +114,7 @@ _0802B274: .4byte gUnknown_0200E06F
 _0802B278: .4byte gUnknown_02004F70
 _0802B27C:
 	movs r0, #4
-	bl sub_0802B8C4
+	bl getSavedPartyMemberIndex
 	lsls r0, r0, #0x10
 	lsrs r2, r0, #0x10
 	asrs r0, r0, #0x10

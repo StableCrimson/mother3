@@ -1,4 +1,3 @@
-// Auto-generated source file
 #include "battle/guest.h"
 #include "battle/irc.h"
 #include "enums.h"
@@ -380,10 +379,10 @@ extern "C" void breakIntoDigits(u16* digitBuffer, u32 value, u16 modifier, u16 n
 extern "C" ASM_FUNC("asm/non_matching/rom/sub_0800268C.inc", void sub_0800268C());
 
 extern "C" void incrementSavePlaytime() {
-    if (gSave.playtime < SECONDS_TO_FRAMES(359999)) {
+    if (gSave.playtime < MAX_SAVE_PLAYTIME) {
         gSave.playtime++;
     } else {
-        gSave.playtime = SECONDS_TO_FRAMES(359998);
+        gSave.playtime = MAX_SAVE_PLAYTIME - SECONDS_TO_FRAMES(1);
     }
     incrementSessionPlaytime();
 }

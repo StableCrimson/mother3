@@ -37,7 +37,7 @@ void sub_080028F4(u32, u32);
 u32 get_shop_flag(u32);
 void add_dp_to_pocket(s32);
 void update_key_item_quantity(u32, u32);
-u32 sub_0802B8C4(u32);
+s16 getSavedPartyMemberIndex(u16);
 void sub_0802AA78(u32);
 void sub_08033BCC(u32);
 void sub_0802B4D8();

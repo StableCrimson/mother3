@@ -8,7 +8,7 @@ sub_0805244C:
 	adds r4, r0, #0
 	adds r5, r1, #0
 	movs r0, #3
-	bl sub_0802B8C4
+	bl getSavedPartyMemberIndex
 	movs r3, #1
 	movs r7, #0x6c
 	ldr r6, _080524E4

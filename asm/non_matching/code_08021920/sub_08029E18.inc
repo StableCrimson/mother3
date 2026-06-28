@@ -28,7 +28,7 @@ _08029E4C: .4byte gSave
 _08029E50: .4byte 0x0000071B
 _08029E54:
 	movs r0, #2
-	bl sub_0802B8C4
+	bl getSavedPartyMemberIndex
 	lsls r0, r0, #0x10
 	lsrs r2, r0, #0x10
 	asrs r0, r0, #0x10
@@ -61,7 +61,7 @@ _08029E8E:
 	cmp r0, #0
 	beq _08029EDA
 	movs r0, #4
-	bl sub_0802B8C4
+	bl getSavedPartyMemberIndex
 	lsls r0, r0, #0x10
 	lsrs r2, r0, #0x10
 	asrs r0, r0, #0x10

@@ -46,7 +46,7 @@ _08052E1C:
 	cmp r0, #0
 	beq _08052E96
 	ldrb r0, [r5]
-	bl sub_0802B8C4
+	bl getSavedPartyMemberIndex
 	adds r4, r0, #0
 	lsls r4, r4, #0x10
 	asrs r4, r4, #0x10

@@ -729,7 +729,16 @@ extern "C" StatMeter* getStatMeter(u16 playerID, u16 statMeterType) {
     }
 }
 
-extern "C" ASM_FUNC("asm/non_matching/code_08021920/sub_0802B8C4.inc", u32 sub_0802B8C4(u32));
+extern "C" s16 getSavedPartyMemberIndex(u16 id) {
+    for (u16 i = 0; i < 5; i++) {
+        if (gSave.party[i] == id) {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
 extern "C" ASM_FUNC("asm/non_matching/code_08021920/sub_0802B8F4.inc", void sub_0802B8F4());
 extern "C" ASM_FUNC("asm/non_matching/code_08021920/sub_0802B924.inc", void sub_0802B924());
 

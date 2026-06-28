@@ -12,9 +12,11 @@
 #define FRAMES_PER_HOUR (FRAMES_PER_MINUTE * 60)
 
 #define SECONDS_TO_FRAMES(seconds) (seconds * FRAMES_PER_SECOND)
+#define MINUTES_TO_FRAMES(minutes) (minutes * FRAMES_PER_MINUTE)
 #define HOURS_TO_FRAMES(hours) (hours * FRAMES_PER_HOUR)
 
 #define LEDERS_BELL_THRESHOLD (HOURS_TO_FRAMES(3))
+#define MAX_SAVE_PLAYTIME (HOURS_TO_FRAMES(99) + MINUTES_TO_FRAMES(59) + SECONDS_TO_FRAMES(59))
 
 extern u16 (*gScriptCmdTable[])(s32* sp);
 
@@ -95,8 +97,8 @@ struct Game {
     u16 _67a0;
     u8 _67a2[0x67ac - 0x67a2];
     u16 cur_room;
-    u16 cur_track; //67ae
-    u16 cur_track_alt; //67b0
+    u16 cur_track;      // 67ae
+    u16 cur_track_alt;  // 67b0
     u8 _67b2[0x67b8 - 0x67b2];
     s16 cam_target;
     u8 _67ba[0x67c0 - 0x67ba];
@@ -139,8 +141,8 @@ struct Game {
     u16 _8462;
     u8 _8464[0x846f - 0x8464];
     u8 _846f[0x847a - 0x846f];
-    s16 _847a; //847a
-    s16 _847c; //847c
+    s16 _847a;  // 847a
+    s16 _847c;  // 847c
     u16 _847e;
     u16 _8480;
     u16 _8482;

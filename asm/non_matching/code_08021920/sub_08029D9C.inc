@@ -9,7 +9,7 @@ sub_08029D9C:
 	ands r0, r1
 	strb r0, [r4]
 	movs r0, #2
-	bl sub_0802B8C4
+	bl getSavedPartyMemberIndex
 	lsls r0, r0, #0x10
 	lsrs r2, r0, #0x10
 	asrs r0, r0, #0x10
@@ -29,7 +29,7 @@ sub_08029D9C:
 	strb r0, [r4]
 _08029DD8:
 	movs r0, #4
-	bl sub_0802B8C4
+	bl getSavedPartyMemberIndex
 	lsls r0, r0, #0x10
 	lsrs r2, r0, #0x10
 	asrs r0, r0, #0x10

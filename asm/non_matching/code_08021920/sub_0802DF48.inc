@@ -10,7 +10,7 @@ sub_0802DF48:
 	cmp r0, #0xe
 	bhi _0802DF6E
 	adds r0, r1, #0
-	bl sub_0802B8C4
+	bl getSavedPartyMemberIndex
 	lsls r0, r0, #0x10
 	lsrs r2, r0, #0x10
 	asrs r0, r0, #0x10
